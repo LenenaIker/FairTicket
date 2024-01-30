@@ -1,6 +1,8 @@
 package com.example.fairticket;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity{
@@ -15,6 +17,16 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void crearDB() {
-        TablasSQL db = new TablasSQL(this);
+        TablasSQL tablasObj = new TablasSQL(this);
+        final SQLiteDatabase db = tablasObj.getWritableDatabase();
+
+        /*
+        Sortu XML bat datu batzukin.
+        Defektuzko datuak izateko.
+
+        Batzuk betiko utzita ta beste batzuk probetako.
+
+        Eredu bezala VisualStudion SilentComerciales en aplikazioa ireki.
+         */
     }
 }
