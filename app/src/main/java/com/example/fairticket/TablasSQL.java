@@ -17,78 +17,80 @@ public class TablasSQL extends SQLiteOpenHelper {
 
         // Crear tabla Cliente
         sentenciaCrearTabla = "CREATE TABLE Cliente (" +
-                "id_cliente INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nombre TEXT," +
-                "apellido TEXT," +
-                "telefono TEXT," +
-                "correo TEXT," +
+                "id_cliente INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "usuario TEXT UNIQUE," +
+                "clave TEXT NOT NULL," +
+                "dni TEXT UNIQUE," +
+                "nombre TEXT NOT NULL," +
+                "apellidos TEXT NOT NULL," +
+                "telefono TEXT UNIQUE," +
+                "correo TEXT UNIQUE," +
                 "direccion TEXT" +
                 ")";
         db.execSQL(sentenciaCrearTabla);
 
         // Crear tabla Calidad
         sentenciaCrearTabla = "CREATE TABLE Calidad (" +
-                "calidad_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "id_calidad INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "nombre TEXT NOT NULL," +
                 "descripcion TEXT," +
-                "precio_extra DOUBLE NOT NULL" +
+                "precio_extra REAL NOT NULL" +
                 ")";
         db.execSQL(sentenciaCrearTabla);
 
         // Crear tabla Factura
         sentenciaCrearTabla = "CREATE TABLE Factura (" +
-                "factura_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "cliente_id INTEGER NOT NULL," +
+                "id_factura INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "id_cliente INTEGER NOT NULL," +
                 "fecha_factura DATE NOT NULL," +
-                "FOREIGN KEY(cliente_id) REFERENCES Cliente(id_cliente)" +
+                "FOREIGN KEY(id_cliente) REFERENCES Cliente(id_cliente)" +
                 ")";
         db.execSQL(sentenciaCrearTabla);
 
         // Crear tabla Entrada
         sentenciaCrearTabla = "CREATE TABLE Entrada (" +
-                "entrada_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "evento_id INTEGER NOT NULL," +
-                "calidad_id INTEGER NOT NULL," +
-                "precio DOUBLE," +
-                "stock INTEGER," +
+                "id_entrada INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "id_evento INTEGER NOT NULL," +
+                "id_calidad INTEGER NOT NULL," +
+                "precio REAL NOT NULL," +
+                "stock INTEGER NOT NULL," +
                 "descripcion TEXT," +
-                "FOREIGN KEY(evento_id) REFERENCES Evento(evento_id)," +
-                "FOREIGN KEY(calidad_id) REFERENCES Calidad(calidad_id)" +
+                "FOREIGN KEY(id_evento) REFERENCES Evento(id_evento)," +
+                "FOREIGN KEY(id_calidad) REFERENCES Calidad(id_calidad)" +
                 ")";
         db.execSQL(sentenciaCrearTabla);
 
         // Crear tabla Organizador
         sentenciaCrearTabla = "CREATE TABLE Organizador (" +
-                "organizador_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nombre TEXT," +
+                "id_organizador INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "nombre TEXT NOT NULL," +
                 "descripcion TEXT," +
-                "gerente_nombre TEXT," +
-                "gerente_telefono TEXT," +
-                "gerente_correo TEXT" +
+                "gerente_nombre TEXT NOT NULL," +
+                "gerente_telefono TEXT UNIQUE," +
+                "gerente_correo TEXT UNIQUE" +
                 ")";
         db.execSQL(sentenciaCrearTabla);
 
         // Crear tabla Evento
         sentenciaCrearTabla = "CREATE TABLE Evento (" +
-                "evento_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nombre TEXT," +
+                "id_evento INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "nombre TEXT NOT NULL," +
                 "descripcion TEXT," +
-                "fecha_inicio DATE," +
+                "fecha_inicio DATE NOT NULL," +
                 "fecha_fin DATE," +
-                "organizador_id INTEGER," +
-                "FOREIGN KEY(organizador_id) REFERENCES Organizador(organizador_id)" +
+                "id_organizador INTEGER," +
+                "FOREIGN KEY(id_organizador) REFERENCES Organizador(id_organizador)" +
                 ")";
         db.execSQL(sentenciaCrearTabla);
 
         // Crear tabla Linea
         sentenciaCrearTabla = "CREATE TABLE Linea (" +
-                "factura_id INTEGER," +
-                "entrada_id INTEGER," +
-                "cantidad INTEGER," +
-                "precio DOUBLE," +
-                "PRIMARY KEY(factura_id, entrada_id)," +
-                "FOREIGN KEY(factura_id) REFERENCES Factura(factura_id)," +
-                "FOREIGN KEY(entrada_id) REFERENCES Entrada(entrada_id)" +
+                "id_linea INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "id_factura INTEGER NOT NULL," +
+                "id_entrada INTEGER NOT NULL," +
+                "cantidad INTEGER NOT NULL," +
+                "FOREIGN KEY(id_factura) REFERENCES Factura(id_factura)," +
+                "FOREIGN KEY(id_entrada) REFERENCES Entrada(id_entrada)" +
                 ")";
         db.execSQL(sentenciaCrearTabla);
     }
